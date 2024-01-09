@@ -1,14 +1,13 @@
 package com.devsuperior.dsmeta.controllers;
 
 import com.devsuperior.dsmeta.dto.SaleDTO;
+import com.devsuperior.dsmeta.dto.SummaryDTO;
 import com.devsuperior.dsmeta.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/sales")
@@ -23,13 +22,8 @@ public class SaleController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(value = "/report")
-    public ResponseEntity<List<SaleDTO>> getReport() {
-        List<SaleDTO> salesDTOs = service.getReport();
-        return ResponseEntity.ok(salesDTOs);
-    }
 
-    @GetMapping(value = "/report/")
+    @GetMapping(value = "/report")
     public ResponseEntity<Page<SaleDTO>> getReport(@RequestParam(name = "minDate", defaultValue = "") String minDate,
                                                    @RequestParam(name = "maxDate", defaultValue = "") String maxDate,
                                                    @RequestParam(name = "name", defaultValue = "") String name,
@@ -38,18 +32,14 @@ public class SaleController {
         return ResponseEntity.ok((salesDTOs));
     }
 
-    @GetMapping(value = "/summary")
-    public ResponseEntity<List<SaleDTO>> getSummary() {
-        List<SaleDTO> salesDTOs = service.getSummary();
-        return ResponseEntity.ok((salesDTOs));
-    }
 
-    @GetMapping(value = "/summary/")
-    public ResponseEntity<Page<SaleDTO>> getSummary(@RequestParam(name = "minDate", defaultValue = "") String minDate,
+
+    @GetMapping(value = "/summary")
+    public ResponseEntity<Page<SummaryDTO>> getSummary(@RequestParam(name = "minDate", defaultValue = "") String minDate,
                                                     @RequestParam(name = "maxDate", defaultValue = "") String maxDate,
                                                     Pageable pageable) {
 
-        Page<SaleDTO> salesDTOs = service.getSummary(minDate, maxDate, pageable);
-        return ResponseEntity.ok((salesDTOs));
+        Page<SummaryDTO> summaryDTOS = service.getSummary(minDate, maxDate, pageable);
+        return ResponseEntity.ok((summaryDTOS));
     }
 }
