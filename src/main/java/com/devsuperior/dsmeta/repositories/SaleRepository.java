@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
@@ -19,8 +20,12 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     Page<Sale> getReport(@Param("minDate") LocalDate minDate, @Param("maxDate") LocalDate maxDate, @Param("name") String name, Pageable pageable);
 
 
-    @Query(value = "SELECT sl.name AS sellerName, SUM(s.amount) AS total FROM tb_sales s INNER JOIN tb_seller sl ON sl.id = s.seller_id  " +
-            "WHERE s.date BETWEEN :minDate AND :maxDate GROUP BY sl.name",
-            nativeQuery = true)
-    Page<SummaryProjection> getSummary(@Param("minDate") LocalDate minDate, @Param("maxDate") LocalDate maxDate, Pageable pageable);
+//    @Query(value = "SELECT  sl.name AS sellerName, SUM(s.amount) AS total FROM tb_sales s INNER JOIN tb_seller sl ON sl.id = s.seller_id  " +
+//            "WHERE s.date BETWEEN :minDate AND :maxDate GROUP BY sl.name",
+//            nativeQuery = true)
+//    Page<SummaryProjection> getSummary(@Param("minDate") LocalDate minDate, @Param("maxDate") LocalDate maxDate, Pageable pageable);
+
+    @Query(value = "SELECT new com.devsuperior.dsmeta.dto.SummaryDTO(s.seller.name , SUM(s.amount)) FROM Sale s " +
+            "WHERE s.date BETWEEN :minDate AND :maxDate GROUP BY s.seller.name")
+    List<SummaryDTO> getSummary(@Param("minDate") LocalDate minDate, @Param("maxDate") LocalDate maxDate);
 }

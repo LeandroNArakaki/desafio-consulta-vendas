@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,11 +38,9 @@ public class SaleService {
     }
 
 
-    public Page<SummaryDTO> getSummary(String minDate, String maxDate, Pageable pageable) {
+    public List<SummaryDTO> getSummary(String minDate, String maxDate) {
         verificarDatas result = getVerificarDatas(minDate, maxDate);
-        Page<SummaryProjection> projections = repository.getSummary(result.minDate, result.maxDate, pageable);
-
-        return projections.map(SummaryDTO::new);
+        return repository.getSummary(result.minDate, result.maxDate);
     }
 
 

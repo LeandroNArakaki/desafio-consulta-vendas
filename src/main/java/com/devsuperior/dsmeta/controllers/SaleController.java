@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/sales")
 public class SaleController {
@@ -35,11 +37,10 @@ public class SaleController {
 
 
     @GetMapping(value = "/summary")
-    public ResponseEntity<Page<SummaryDTO>> getSummary(@RequestParam(name = "minDate", defaultValue = "") String minDate,
-                                                    @RequestParam(name = "maxDate", defaultValue = "") String maxDate,
-                                                    Pageable pageable) {
+    public ResponseEntity<List<SummaryDTO>> getSummary(@RequestParam(name = "minDate", defaultValue = "") String minDate,
+                                                    @RequestParam(name = "maxDate", defaultValue = "") String maxDate) {
 
-        Page<SummaryDTO> summaryDTOS = service.getSummary(minDate, maxDate, pageable);
+        List<SummaryDTO> summaryDTOS = service.getSummary(minDate, maxDate);
         return ResponseEntity.ok((summaryDTOS));
     }
 }
