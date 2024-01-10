@@ -1,5 +1,7 @@
 package com.devsuperior.dsmeta.dto;
 
+import com.devsuperior.dsmeta.projections.SummaryProjection;
+
 public class SummaryDTO {
 
     private String sellerName;
@@ -9,6 +11,11 @@ public class SummaryDTO {
     public SummaryDTO(String sellerName, Double total) {
         this.sellerName = sellerName;
         this.total = total;
+    }
+
+    public SummaryDTO(SummaryProjection projection) {
+        this.sellerName = projection.getSellerName();
+        this.total = projection.getTotal();
     }
 
 
