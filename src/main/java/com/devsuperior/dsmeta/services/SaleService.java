@@ -53,12 +53,13 @@ public class SaleService {
             dateMin = LocalDate.now().minusMonths(12L);
             dateMax = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
         } else {
-            if (!Strings.isEmpty(minDate) && !Strings.isEmpty(maxDate) ) {
+            //data inicial vazia
+            if (Strings.isEmpty(minDate) && !Strings.isEmpty(maxDate) ) {
                 dateMin = LocalDate.parse(maxDate).minusYears(1L);
                 dateMax = LocalDate.parse(maxDate);
             } else {
-                dateMin = LocalDate.parse(maxDate).minusYears(1L);
-                dateMax = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+                dateMin = LocalDate.parse(minDate);
+                dateMax = LocalDate.parse(maxDate);
             }
 
         }
